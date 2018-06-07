@@ -1,0 +1,32 @@
+---
+dist: trusty
+language: python
+sudo: required
+cache:
+  pip: true
+
+env:
+  global:
+    - fast_finish: true
+    - secure: Tbk9G2NJsx0OzcdU92O4G6NjDYV1rO6oLJ7+ItGbYK93KVLPxh/sTzs8rwncyh3aQFJwF01Z4Liggqddqqko0aiDvlzNOlIyw/cbzszQSGSfdZT5/M6SMmJoy+JhbJLkYGeEX7rK9agVpaVwhz/we73M4cig7NSRCGNZn/7rUialVoLO1wPfHNCzPd0/qTZ/CI8VsxfQGsA7as67RGswZYK/q8DzdngaYh4d8o8OAQsxfqWjruF3XLRkpAdDT3XPmvAes4BOfnZ1HcZqmtqVl4FWIGw0eebSJmTPAGXZ9zRSL+nRlJ+Fb9yqCsBrLHD80eyu7xNnRvZqaMlIF0f3gHEdxCk2BPyKR50+puEz6RKPxeg5zN7vx/zFEyYCyxmJuCfjK54WGV7TnX2oTxTSvTOiNbgZUGxyl97KVUQGj8sOhUVxxj6sMgX6p2T0gTWG1DqonSEweno/65edpLGNXwLNQ5sbjnKF8R42WkDIiDHO/eHOoEzOI9jmvXjw48QbdIYGVonnyEXIIsLbjqNoR6BFHbSQvKq6kDTJZXMgygUyJNKUwY6093Jcvr4UdXYqIxIEuLJJp8i93DPJK6ELc7fvAMD5eK6f8/imQ+URykoYqRkEyfKOgPkFrLacoNqBcSIUt0cODxKTVPcGpY7MhZXOFz0MN9h0WjehDZiNaEE=
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install --only-upgrade docker-ce -y
+script:
+  - docker build . -t ansible-dev-container:latest
+deploy:
+  provider: script
+  script:
+    - docker push lansible/ansible-dev-container
+  on:
+    branch: master
+  skip_cleanup: true
+
+notifications:
+  email:
+    on_failure: change
+    on_success: never
