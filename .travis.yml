@@ -17,11 +17,11 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get -qq install --only-upgrade docker-ce -y
 script:
-  - docker build . -t ansible-dev-container:latest
+  - docker build . -t lansible/ansible-dev-container:latest
 deploy:
   provider: script
   script:
-    - docker push lansible/ansible-dev-container
+    - docker push lansible/ansible-dev-container:latest
   on:
     branch: master
   skip_cleanup: true
