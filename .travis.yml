@@ -21,7 +21,8 @@ script:
 deploy:
   provider: script
   script:
-    - docker push --username wilmardo --password $DOCKER_PASSWORD lansible/ansible-dev-container:latest
+    - docker login --username wilmardo --password $DOCKER_PASSWORD
+    - docker push lansible/ansible-dev-container:latest
   on:
     branch: master
   skip_cleanup: true
