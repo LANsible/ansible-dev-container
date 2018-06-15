@@ -3,23 +3,28 @@ language: python
 sudo: required
 cache:
   pip: true
+
 env:
   global:
-  - fast_finish: true
-  - secure: OkJA/uxUQHOeeHpAPHpjXOB3oVcLKGQ6OdK/UrWYd7HbNk6TTvmI4CnlAYGT8MMjspBi9djuxD6p4nQyTlEwDg8OMWfi0TbnvZ3trO79Bo1GlvgFk2wyWePeADykCst3Oa7x3Qv0E6GHxTkST/SCy9tErlEDV/hPNu+5eLA8JJhvde0f7QhCag7SDFawkphxINdj34llAbwzTwHRnzjPqVQU+8Lcu5tXMx52fM+iFHxnYcH1dX9A80XGiiDgesdFENqJmum9+7fOcc6jgnJlH82QwcNVnTyMWwxmfoGDfGVtNuP1IZFeyuV/WFVuk6Z8gne8rOQNhy20sH2etuH3gZgSEycUfa0nmnOMovCwkvhbhCruMSMwP04bjQiFKWX6wQIKyHtgdDmtqeoINbslyJDliKLOjcu5kkcTpyrsZzyHI30WQwVS27fsUY6TK8dTli6L6m2bieEH3EqiBbdJxmvtIfjsaeLzuyiXXQzYh5jjERZqZkKfWg0nziBekYx1VKkpQkdxk2+PSYhFbhc+kKRabBrpNbuzuUXr2Skc5RUDT8GEN3pQd0vTW1jnPhV+zT2euiblqp6Gj+kN7MLv18o49C03nr5xaRVZiNq/VyFpVi3LaqyH9p6ZpJIXDNBxAaR6NW3Fyc1MUjGmWt/dVVfuyK2/ZxJfoV/knHEQrjM=
-  - secure: DPm5sKwASaNf2WBB7nQhW1oHcWTeaTy4oBmI48Lep2f/NKpVvZaaaLrZ57G+o5SFuDqEqtPE7bsjdHiZnIooKj6fjKM1IqgYhA3tIq3pF4ECIT4gtN9B/l7QWhA20Dm5K5XARb1+jcg13EQ784/SbLTaMpfz65ENujHWUHnRHKEVlZ4ETcFuNYRmav5DlRvknHM91Z4r0Vmg1ws+N1K7EJOdM+YHEK7eAL/x8DnmJxuroCsqnnxU1UIKlunhYssLu0zqADdtvMkLkIv+tL0tHBUymi5YBQ0AZvAoAGR+1y9b+Jno+6mRbTBzLgrytBq6uaG8j9IBmgtD87YhL5+6/mDv/snRde18wCMt+AbQASSWX8NX2D5hPgMCzksgnU+X8PxdF3okx3tirbTU98lagvdCaUJB7vCqe1UEK0UWt758H4/6u6nZqZvfWgvP5XtBtfbvChw5hSsebJAOYNllAdtmTGdKghq6SHqVtqCDJYWo/MRKQeusomDVLm6cHo8HiGfqqDkdMWPzVxtTPwpsuBXfVCPT6mnMbWzVdGVMfOx3chDApz9fh3kJFiE5ZqOpsdkmMqds5SMizxGGBZVQjo6V4wa4TyQ7nx4cecaDqAo1fbvzF6lUsxs4F6Ki1rk5r5JsfjvH+GaN+I0X/CRtcQNqGxOkDGr43UJKLLjva8E=
+    - fast_finish: true
+    - secure: OkJA/uxUQHOeeHpAPHpjXOB3oVcLKGQ6OdK/UrWYd7HbNk6TTvmI4CnlAYGT8MMjspBi9djuxD6p4nQyTlEwDg8OMWfi0TbnvZ3trO79Bo1GlvgFk2wyWePeADykCst3Oa7x3Qv0E6GHxTkST/SCy9tErlEDV/hPNu+5eLA8JJhvde0f7QhCag7SDFawkphxINdj34llAbwzTwHRnzjPqVQU+8Lcu5tXMx52fM+iFHxnYcH1dX9A80XGiiDgesdFENqJmum9+7fOcc6jgnJlH82QwcNVnTyMWwxmfoGDfGVtNuP1IZFeyuV/WFVuk6Z8gne8rOQNhy20sH2etuH3gZgSEycUfa0nmnOMovCwkvhbhCruMSMwP04bjQiFKWX6wQIKyHtgdDmtqeoINbslyJDliKLOjcu5kkcTpyrsZzyHI30WQwVS27fsUY6TK8dTli6L6m2bieEH3EqiBbdJxmvtIfjsaeLzuyiXXQzYh5jjERZqZkKfWg0nziBekYx1VKkpQkdxk2+PSYhFbhc+kKRabBrpNbuzuUXr2Skc5RUDT8GEN3pQd0vTW1jnPhV+zT2euiblqp6Gj+kN7MLv18o49C03nr5xaRVZiNq/VyFpVi3LaqyH9p6ZpJIXDNBxAaR6NW3Fyc1MUjGmWt/dVVfuyK2/ZxJfoV/knHEQrjM=
+    - secure: DPm5sKwASaNf2WBB7nQhW1oHcWTeaTy4oBmI48Lep2f/NKpVvZaaaLrZ57G+o5SFuDqEqtPE7bsjdHiZnIooKj6fjKM1IqgYhA3tIq3pF4ECIT4gtN9B/l7QWhA20Dm5K5XARb1+jcg13EQ784/SbLTaMpfz65ENujHWUHnRHKEVlZ4ETcFuNYRmav5DlRvknHM91Z4r0Vmg1ws+N1K7EJOdM+YHEK7eAL/x8DnmJxuroCsqnnxU1UIKlunhYssLu0zqADdtvMkLkIv+tL0tHBUymi5YBQ0AZvAoAGR+1y9b+Jno+6mRbTBzLgrytBq6uaG8j9IBmgtD87YhL5+6/mDv/snRde18wCMt+AbQASSWX8NX2D5hPgMCzksgnU+X8PxdF3okx3tirbTU98lagvdCaUJB7vCqe1UEK0UWt758H4/6u6nZqZvfWgvP5XtBtfbvChw5hSsebJAOYNllAdtmTGdKghq6SHqVtqCDJYWo/MRKQeusomDVLm6cHo8HiGfqqDkdMWPzVxtTPwpsuBXfVCPT6mnMbWzVdGVMfOx3chDApz9fh3kJFiE5ZqOpsdkmMqds5SMizxGGBZVQjo6V4wa4TyQ7nx4cecaDqAo1fbvzF6lUsxs4F6Ki1rk5r5JsfjvH+GaN+I0X/CRtcQNqGxOkDGr43UJKLLjva8E=
+
 services:
-- docker
+  - docker
+
 before_install:
-- sudo apt-get -qq update
-- sudo apt-get -qq install --only-upgrade docker-ce -y
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install --only-upgrade docker-ce -y
+
 script:
-- docker build . -t lansible/ansible-dev-container:latest
+  - docker build . -t lansible/ansible-dev-container:latest
+
 deploy:
   provider: script
   script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push lansible/ansible-dev-container:latest
+    - docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+    - docker push lansible/ansible-dev-container:latest
   on:
     branch: master
   skip_cleanup: true
