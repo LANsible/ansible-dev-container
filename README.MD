@@ -17,4 +17,4 @@ Available ENV vars:
 * `INTERMAX_MOLECULE_RULES` point to molecule-rules directory
 
 Roles can be tested with the following command, executed from the role directory, where the last part is the molecule argument (lint, destroy, create, test, converge):
-`docker run --net=host -t -v $(pwd):/data/role -w /data/role *containername* test`
+`docker run --net=host -t -v $(pwd):/data/$(basename ~+) -w /data/$(basename ~+) lansible/ansible-dev-container test`
