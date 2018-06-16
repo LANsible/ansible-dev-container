@@ -1,0 +1,4 @@
+---
+rulesdir:
+  - rules/
+use_default_rules: true
