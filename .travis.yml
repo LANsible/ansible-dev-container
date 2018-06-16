@@ -13,11 +13,12 @@ env:
 services:
   - docker
 
-before_install:
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install --only-upgrade docker-ce -y
+addons:
+  apt:
+    sources:
+      - docker-trusty
+    packages:
+      - docker-ce
 
 script:
   - docker build . -t lansible/ansible-dev-container:latest
@@ -28,6 +29,7 @@ deploy:
   on:
     branch: master
   skip_cleanup: true
+
 notifications:
   email:
     on_failure: change
