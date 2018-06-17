@@ -29,5 +29,4 @@ COPY --chown=ansible:ansible . $ANSIBLE_MAIN
 
 RUN pip install -r requirements.txt --user --no-cache-dir
 
-ENTRYPOINT [ "/home/ansible/.local/bin/molecule" ]
-CMD [ "--help" ]
+CMD [ "molecule test" ]
