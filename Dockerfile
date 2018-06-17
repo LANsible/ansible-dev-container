@@ -28,5 +28,3 @@ WORKDIR $HOME/ansible-main
 COPY --chown=ansible:ansible . $ANSIBLE_MAIN
 
 RUN pip install -r requirements.txt --user --no-cache-dir
-
-CMD [ "molecule test" ]
