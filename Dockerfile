@@ -13,18 +13,19 @@ RUN yum install -y \
     && yum install -y \
         gcc \
         git \
-        python-pip \
+        python-dnf \
         python-devel \
         openssl-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
-RUN curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
-       | tar -zxC /usr/local/bin/ --strip-components=1 docker/docker
-
 RUN useradd -ms /bin/bash $USER
 USER $USER
 WORKDIR $HOME/ansible-main
+
+RUN (curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user) && \
+    (curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
+       | tar -zxC $HOME/.local/bin/ --strip-components=1 docker/docker)
 
 # TODO: Fix some dynamic user chown, not possible now due https://github.com/moby/moby/issues/35018
 #COPY --chown=$USER:$USER . $HOME/ansible-main
