@@ -15,9 +15,11 @@ RUN yum install -y \
         python-pip \
         python-devel \
         openssl-devel \
-        docker \
     && yum clean all \
     && rm -rf /var/cache/yum
+
+RUN curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
+       | tar -zxC /usr/local/bin/ --strip-components=1 docker/docker
 
 RUN useradd -ms /bin/bash $USER
 USER $USER
