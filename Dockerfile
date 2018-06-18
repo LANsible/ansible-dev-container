@@ -12,6 +12,7 @@ RUN yum install -y \
         epel-release \
     && yum install -y \
         gcc \
+        git \
         python-pip \
         python-devel \
         openssl-devel \

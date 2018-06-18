@@ -16,5 +16,5 @@ Available ENV vars:
 * `INTERMAX_ANSIBLE_MAIN` points to ansible-main location
 * `INTERMAX_MOLECULE_RULES` point to molecule-rules directory
 
-Roles can be tested with the following command, executed from the role directory, where the last part is the molecule argument (lint, destroy, create, test, converge):
-`docker run --net=host -t -v $(pwd):/data/$(basename ~+) -w /data/$(basename ~+) lansible/ansible-dev-container test`
+Roles can be tested with the following command, executed from the role directory, where the last part is the command executed by bash:
+`docker run --net=host -t -v $(pwd):/data/$(basename ~+) -w /data/$(basename ~+) lansible/ansible-dev-container molecule test`
