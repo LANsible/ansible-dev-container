@@ -28,7 +28,12 @@ matrix:
     - env: ANSIBLE_VERSION=2.6 TAGS:2.6 develop # Development
 
 script:
-  - docker build . --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t lansible/ansible-dev-container:latest
+  - |
+    for tag in $TAGS
+    do
+      $TAG_STRING += "-t lansible/ansible-dev-container:$tag "
+    done
+  - docker build . --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION $TAG_STRING
 
 deploy:
   provider: script
