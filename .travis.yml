@@ -20,8 +20,15 @@ addons:
     packages:
       - docker-ce
 
+matrix:
+  include:
+    - env: ANSIBLE_VERSION=2.3 TAGS=2.3         # 2.3.x bugs and security
+    - env: ANSIBLE_VERSION=2.4 TAGS=2.4         # 2.4.x bugs and security
+    - env: ANSIBLE_VERSION=2.5 TAGS=2.5 latest  # 2.5.x bugs and security
+    - env: ANSIBLE_VERSION=2.6 TAGS:2.6 develop # Development
+
 script:
-  - docker build . -t lansible/ansible-dev-container:latest
+  - docker build . --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t lansible/ansible-dev-container:latest
 
 deploy:
   provider: script

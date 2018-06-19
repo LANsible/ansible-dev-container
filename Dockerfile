@@ -8,6 +8,8 @@ ENV DOCKER_HOST tcp://127.0.0.1:2375
 ENV DEV_ANSIBLE_MAIN $HOME/ansible-main
 ENV DEV_MOLECULE_RULES $DEV_ANSIBLE_MAIN/molecule-rules
 
+ARG ANSIBLE_VERSION=2.5
+
 RUN yum install -y \
         epel-release \
     && yum install -y \
@@ -31,4 +33,4 @@ RUN (curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user)
 #COPY --chown=$USER:$USER . $HOME/ansible-main
 COPY --chown=ansible:ansible . $ANSIBLE_MAIN
 
-RUN pip install -r requirements.txt --user --no-cache-dir
+RUN pip install -r requirements-$ANSIBLE_VERSION.txt --user --no-cache-dir
