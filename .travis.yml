@@ -31,9 +31,9 @@ script:
   - |
     for tag in $TAGS
     do
-      $TAG_STRING+="$TAG_STRING -t lansible/ansible-dev-container:$tag"
+      TAG_STRING+="$TAG_STRING -t lansible/ansible-dev-container:$tag"
     done
-  - docker build . --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION $TAG_STRING
+    docker build . --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION $TAG_STRING
 
 deploy:
   provider: script
