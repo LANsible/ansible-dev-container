@@ -27,6 +27,9 @@ matrix:
     - env: ANSIBLE_VERSION=2.5 TAGS="2.5 latest"  # 2.5.x bugs and security
     - env: ANSIBLE_VERSION=2.6 TAGS="2.6 develop" # Development
 
+  allow_failures:
+    - env: ANSIBLE_VERSION=2.6 TAGS="2.6 develop" # Development
+
 script:
   - |
     for tag in $TAGS
