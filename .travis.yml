@@ -27,6 +27,9 @@ matrix:
     - env: ANSIBLE_VERSION=2.6 TAGS="2.6 latest"  # 2.6.x bugs and security
     - env: ANSIBLE_VERSION=2.6 TAGS="2.7 develop" # Development
 
+before_install:
+  - sudo apt-get install lxc-dev
+
 script:
   - |
     for tag in $TAGS
