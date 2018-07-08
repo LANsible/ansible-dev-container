@@ -18,6 +18,7 @@ RUN yum install -y \
         python-dnf \
         python-devel \
         openssl-devel \
+        lxc-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
