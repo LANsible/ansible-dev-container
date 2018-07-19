@@ -29,12 +29,12 @@ matrix:
 
 script:
   - |
-    for tag in $TAGS
+    for tag in ${TAGS}
     do
       TAG_STRING+="${TAG_STRING} -t lansible/ansible-dev-container:${tag}"
     done
-    docker build . --build-arg ANSIBLE_VERSION=${ANSIBLE_VERSION} ${TAG_STRING}
-  - docker run lansible/ansible-dev-container:${ANSIBLE_VERSION} molecule --help
+    docker build . --build-arg ANSIBLE_VERSION="${ANSIBLE_VERSION}" "${TAG_STRING}"
+  - docker run lansible/ansible-dev-container:"${ANSIBLE_VERSION}" molecule --help
 
 deploy:
   provider: script
