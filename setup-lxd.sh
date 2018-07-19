@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+cat client.crt <<EOL
 -----BEGIN CERTIFICATE-----
 MIIFhDCCA2ygAwIBAgIQRlUrxzlxEGQVlKP4171PwDANBgkqhkiG9w0BAQsFADBA
 MRwwGgYDVQQKExNsaW51eGNvbnRhaW5lcnMub3JnMSAwHgYDVQQDDBd3aWxtYXJk
@@ -30,3 +32,41 @@ jc2QJds5G/x0SQnnYqoLaWqXin/Gfg9aCbJrSPtucs7p0oytHq1EMoPQqrFj7amn
 hhVJN9sNJnKPHEzv2RLCr40to+9RR7WcDOSwckb8nFXdTGa8ULEwgb0WJTeMPMtr
 /cR7kjEsvL1hcc22b2qYUZ6Z8cdyrkPd
 -----END CERTIFICATE-----
+EOL
+
+cat <<EOF | lxd init --preseed
+config:
+  core.https_address: '127.0.0.1:8443'
+  core.trust_password: password
+cluster: null
+networks:
+- config:
+    ipv4.address: auto
+    ipv6.address: auto
+  description: ""
+  managed: false
+  name: lxdbr0
+  type: ""
+storage_pools:
+- config: {}
+  description: ""
+  name: default
+  driver: dir
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      nictype: bridged
+      parent: lxdbr0
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+EOF
+
+lxc config trust add client.crt
+rm -f client.crt

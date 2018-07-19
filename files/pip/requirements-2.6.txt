@@ -1,4 +1,4 @@
-ansible==2.4.6.0
+ansible==2.6.1
 ansible-lint==3.4.21
 anyconfig==0.9.4
 arrow==0.12.1
@@ -31,7 +31,6 @@ idna==2.7
 ipaddress==1.0.22
 Jinja2==2.10
 jinja2-time==0.2.0
-lxc-python2==0.1
 MarkupSafe==1.0
 mccabe==0.6.1
 molecule==2.15.0

@@ -1,0 +1,23 @@
+default-remote: 127.0.0.1:8443
+remotes:
+  127.0.0.1:8443:
+    addr: https://127.0.0.1:8443
+    public: false
+    protocol: lxd
+    auth_type: tls
+  images:
+    addr: https://images.linuxcontainers.org
+    public: true
+    protocol: simplestreams
+  local:
+    addr: unix://
+    public: false
+  ubuntu:
+    addr: https://cloud-images.ubuntu.com/releases
+    public: true
+    protocol: simplestreams
+  ubuntu-daily:
+    addr: https://cloud-images.ubuntu.com/daily
+    public: true
+    protocol: simplestreams
+aliases: {}
