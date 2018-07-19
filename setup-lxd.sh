@@ -46,6 +46,14 @@ profiles:
 EOF
 
 # Get files/client.crt from this repo, cannot reference local location for portability
-curl -O https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
+if [ -x "$(command -v wget)" ]
+then
+    wget -O https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
+elif [ -x "$(command -v curl)" ]
+then
+    curl -O https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
+else
+    echo "wget or curl is needed for setup, please install curl/wget"
+fi
 lxc config trust add client.crt
 rm -f client.crt
