@@ -36,11 +36,6 @@ COPY --chown=ansible:ansible ./files/pip/requirements-$ANSIBLE_VERSION.txt $HOME
 RUN pip install -r requirements-$ANSIBLE_VERSION.txt --user --no-cache-dir
 
 ### LXD ###
-RUN go get -v -x github.com/lxc/lxd/lxc
+RUN go get -v -x github.com/lxc/lxd/lxc \
+    && rm -rf $HOME/go/pkg $HOME/go/src
 COPY --chown=ansible:ansible files/lxc $HOME/.config/lxc
-
-#RUN lxc remote list
-#RUN lxc remote add 127.0.0.1:8443 --accept-certificate
-#RUN lxc remote set-default 127.0.0.1:8443
-#RUN lxc remote list
-#RUN lxc list
