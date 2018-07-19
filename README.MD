@@ -18,3 +18,18 @@ Available ENV vars:
 
 Roles can be tested with the following command, executed from the role directory, where the last part is the command executed by bash:
 `docker run --net=host -t -v $(pwd):/data/$(basename ~+) -w /data/$(basename ~+) lansible/ansible-dev-container molecule test`
+
+
+### Regenerate client.crt and client.key
+
+* Generate a client private key
+
+`openssl genrsa -out client.key 4096`
+
+* Generate a certificate request (csr)
+
+`openssl req -new -key client.key -out client.csr`
+
+* Generate an auto-sign certificate
+
+`openssl x509 -req -days 3650 -in client.csr -signkey client.key -out client.crt`
