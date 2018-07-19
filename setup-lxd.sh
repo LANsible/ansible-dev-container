@@ -34,7 +34,6 @@ EOL
 cat <<EOF | lxd init --preseed
 config:
   core.https_address: '127.0.0.1:8443'
-  core.trust_password: password
 cluster: null
 networks:
 - config:
