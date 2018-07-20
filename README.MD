@@ -33,3 +33,7 @@ Roles can be tested with the following command, executed from the role directory
 * Generate an auto-sign certificate
 
 `openssl x509 -req -days 3650 -in client.csr -signkey client.key -out client.crt`
+
+### Setup local LXD for debug
+`lxc remote add 127.0.0.1:8443`
+`lxc remote set-default 127.0.0.1:8443`

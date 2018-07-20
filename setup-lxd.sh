@@ -14,7 +14,6 @@ fi
 cat <<EOF | lxd init --preseed
 config:
   core.https_address: '127.0.0.1:8443'
-  core.trust_password: ${trust_password}
 cluster: null
 networks:
 - config:
@@ -46,12 +45,12 @@ profiles:
 EOF
 
 # Get files/client.crt from this repo, cannot reference local location for portability
-if [ -x "$(command -v wget)" ]
-then
-    wget https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
-elif [ -x "$(command -v curl)" ]
+if [ -x "$(command -v curl)" ]
 then
     curl -O https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
+elif [ -x "$(command -v wget)" ]
+then
+    wget https://raw.githubusercontent.com/LANsible/ansible-dev-container/lxd/files/lxc/client.crt
 else
     echo "wget or curl is needed for setup, please install curl/wget"
 fi
