@@ -37,3 +37,13 @@ Roles can be tested with the following command, executed from the role directory
 ### Setup local LXD for debug
 `lxc remote add 127.0.0.1:8443`
 `lxc remote set-default 127.0.0.1:8443`
+
+openssl req -new -sha256 \
+    -key server.key \
+    -subj "/O=linuxcontainers.org/CN=root@ubuntu-desktop" \
+    -reqexts SAN \
+    -config <(cat /etc/ssl/openssl.cnf \
+        <(printf "\n[SAN]\nsubjectAltName=DNS:ubuntu-desktop,IP:192.168.1.195,IP:172.17.0.1,IP:127.0.0.1")) \
+    -out server.csr
+    
+docker run --net=host -it -v $(pwd):/data/$(basename ~+) -v /var/lib/lxd/unix.socket:/var/lib/lxd/unix.socket -w /data/$(basename ~+) test molecule --debug converge
