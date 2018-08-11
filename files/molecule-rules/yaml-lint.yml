@@ -3,14 +3,14 @@ extends: default
 
 rules:
   braces:
-    min-spaces-inside: 1
-    max-spaces-inside: 1
+    min-spaces-inside: 0
+    max-spaces-inside: 2
     min-spaces-inside-empty: 0
     max-spaces-inside-empty: 0
     level: error
   brackets:
-    min-spaces-inside: 1
-    max-spaces-inside: 1
+    min-spaces-inside: 0
+    max-spaces-inside: 2
     min-spaces-inside-empty: 0
     max-spaces-inside-empty: 0
     level: error
