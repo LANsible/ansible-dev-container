@@ -14,6 +14,7 @@ RUN yum install -y \
         gcc \
         git \
         python-dnf \
+        python-yum \
         python-devel \
         openssl-devel \
         go \
@@ -28,11 +29,10 @@ RUN (curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user)
        | tar -zxC $HOME/.local/bin/ --strip-components=1 docker/docker)
 
 ### ANSIBLE + MOLECULE ###
-# TODO: Fix some dynamic user chown, not possible now due https://github.com/moby/moby/issues/35018
 COPY files/pip/requirements-$ANSIBLE_VERSION.txt $HOME
 RUN pip install -r requirements-$ANSIBLE_VERSION.txt --no-cache-dir --user
 
-### LXD ###
+### LXD/LXC ###
 RUN go get -v -x github.com/lxc/lxd/lxc \
     && rm -rf $HOME/go/pkg $HOME/go/src
 COPY files/lxc $HOME/.config/lxc
