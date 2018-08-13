@@ -25,7 +25,7 @@ matrix:
     - env: ANSIBLE_VERSION=2.4 TAGS="2.4"         # 2.4.x security
     - env: ANSIBLE_VERSION=2.5 TAGS="2.5"         # 2.5.x bugs and security
     - env: ANSIBLE_VERSION=2.6 TAGS="2.6 latest"  # 2.6.x bugs and security
-    - env: ANSIBLE_VERSION=2.6 TAGS="2.7 develop" # Development
+    - env: ANSIBLE_VERSION=2.6 TAGS="2.7 devel"   # Development
 
 script:
   - |
