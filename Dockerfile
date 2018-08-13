@@ -1,7 +1,6 @@
 FROM centos:7
 LABEL maintainer="Wilmar den Ouden <info@wilmardenouden.nl>"
 
-ENV USER root
 ENV HOME /root
 ENV PATH $HOME/.local/bin:$HOME/bin:$HOME/go/bin:$PATH
 ENV DOCKER_HOST tcp://127.0.0.1:2375
@@ -14,11 +13,10 @@ RUN yum install -y \
     && yum install -y \
         gcc \
         git \
-        python-devel \
         python-dnf \
         python-yum \
+        python-devel \
         openssl-devel \
-        libselinux-python \
         go \
     && yum clean all \
     && rm -rf /var/cache/yum
