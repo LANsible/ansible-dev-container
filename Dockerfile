@@ -27,12 +27,10 @@ COPY --from=lxd-builder /go/bin/lxc $HOME/go/bin/lxc
 COPY files/lxc $HOME/.config/lxc
 
 ### PIP INSTALL ###
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user
+RUN set -o pipefail && curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user
 
 ### DOCKER CLIENT ONLY ###
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz | \
+RUN set -o pipefail && curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz | \
     tar -zxC "$HOME/.local/bin/" --strip-components=1 docker/docker
 
 #################################################
