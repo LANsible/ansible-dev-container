@@ -10,6 +10,7 @@ RUN go get -v -x github.com/lxc/lxd/lxc
 # CREATE BASE IMAGE
 #################################################
 FROM centos:7 as base
+ENV HOME /root
 
 RUN yum install -y \
         gcc \
