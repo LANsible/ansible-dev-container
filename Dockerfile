@@ -2,6 +2,7 @@
 # USE GOLANG IMAGE FOR BUILDING LXC CLIENT
 #################################################
 FROM golang:1.10 as lxd-builder
+
 ### LXC CLIENT BUILD ###
 RUN go get -v -x github.com/lxc/lxd/lxc
 
