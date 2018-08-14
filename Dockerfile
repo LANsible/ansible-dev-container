@@ -28,14 +28,14 @@ RUN (curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --user)
     (curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz \
        | tar -zxC $HOME/.local/bin/ --strip-components=1 docker/docker)
 
-### ANSIBLE + MOLECULE ###
-COPY files/pip/requirements-$ANSIBLE_VERSION.txt $HOME
-RUN pip install -r requirements-$ANSIBLE_VERSION.txt --no-cache-dir --user
-
 ### LXD/LXC ###
 RUN go get -v -x github.com/lxc/lxd/lxc \
     && rm -rf $HOME/go/pkg $HOME/go/src
 COPY files/lxc $HOME/.config/lxc
+
+### ANSIBLE + MOLECULE ###
+COPY files/pip/requirements-$ANSIBLE_VERSION.txt $HOME
+RUN pip install -r requirements-$ANSIBLE_VERSION.txt --no-cache-dir --user
 
 # Add molecule-rules
 COPY files/molecule-rules $DEV_MOLECULE_RULES
