@@ -27,13 +27,16 @@ matrix:
     - env: ANSIBLE_VERSION=2.6 TAGS="2.6 latest"  # 2.6.x bugs and security
     - env: ANSIBLE_VERSION=2.7 TAGS="2.7 devel"   # Devel branch source install
 
+before_script:
+  - docker pull lansible/ansible-dev-container:latest
+
 script:
   - |
     for tag in ${TAGS}
     do
       TAG_STRING+="${TAG_STRING} -t lansible/ansible-dev-container:${tag}"
     done
-    docker build . --build-arg ANSIBLE_VERSION=${ANSIBLE_VERSION} ${TAG_STRING}
+    docker build . --build-arg ANSIBLE_VERSION=${ANSIBLE_VERSION} --cache-from lansible/ansible-dev-container:latest ${TAG_STRING}
   - docker run lansible/ansible-dev-container:${ANSIBLE_VERSION} molecule --help
 
 deploy:
