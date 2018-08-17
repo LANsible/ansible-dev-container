@@ -1,4 +1,4 @@
--e git://github.com/ansible/ansible@cda3b53035ed0effda6bea215ed6230bf6c49c7b#egg=ansible
+-e git://github.com/ansible/ansible@devel#egg=ansible
 ansible-lint==3.4.23
 anyconfig==0.9.4
 arrow==0.12.1
