@@ -23,7 +23,7 @@ RUN yum install -y \
     && rm -rf /var/cache/yum
 
 ### LXC CLIENT COPY + CONFIG ###
-COPY --from=lxd-builder /go/bin/lxc $HOME/go/bin/lxc
+COPY --from=lxd-builder /go/bin/lxc $HOME/.local/bin/lxc
 COPY files/lxc $HOME/.config/lxc
 
 ### PIP INSTALL ###
@@ -40,7 +40,7 @@ FROM base
 LABEL maintainer="Wilmar den Ouden <info@wilmardenouden.nl>"
 
 ENV HOME /root
-ENV PATH $HOME/.local/bin:$HOME/bin:$HOME/go/bin:$PATH
+ENV PATH $HOME/.local/bin:$HOME/bin:$PATH
 ENV DOCKER_HOST tcp://127.0.0.1:2375
 ENV DEV_MOLECULE_RULES $HOME/molecule-rules
 
