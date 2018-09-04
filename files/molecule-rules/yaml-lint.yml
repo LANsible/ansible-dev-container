@@ -1,6 +1,10 @@
 ---
 extends: default
 
+# Ignore virtualenv lib/ inside directory
+ignore: |
+  **/lib/
+
 rules:
   braces:
     min-spaces-inside: 0
