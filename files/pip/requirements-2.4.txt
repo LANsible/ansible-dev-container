@@ -1,2 +1,3 @@
 ansible<2.5
 git+https://github.com/wilmardo/molecule@lxd
+winrm
