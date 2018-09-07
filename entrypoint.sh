@@ -9,7 +9,7 @@ GROUP_ID=${LOCAL_GROUP_ID:-9001}
 
 echo "Starting with UID : $USER_ID with secondary GUID : $GROUP_ID"
 
-groupadd -g $GROUP_ID group
+groupadd -f -g $GROUP_ID group
 useradd --shell /bin/bash -u $USER_ID -G group -o -c "" -m user
 export HOME=/home/user
 

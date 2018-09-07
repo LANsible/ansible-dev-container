@@ -46,4 +46,9 @@ openssl req -new -sha256 \
         <(printf "\n[SAN]\nsubjectAltName=DNS:ubuntu-desktop,IP:192.168.1.195,IP:172.17.0.1,IP:127.0.0.1")) \
     -out server.csr
     
-docker run --net=host -it -v $(pwd):/data/$(basename ~+) -v /var/lib/lxd/unix.socket:/var/lib/lxd/unix.socket -w /data/$(basename ~+) test molecule --debug converge
+# Debugging entrypoint
+docker run -it -v $(pwd):/data/$(basename ~+) \
+-v /var/snap/lxd/common/lxd/unix.socket:/var/lib/lxd/unix.socket \     
+-w /data/$(basename ~+) \
+--entrypoint '' --user root \
+lansible/ansible-dev-container:2.4 bash
