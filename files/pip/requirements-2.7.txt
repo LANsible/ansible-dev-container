@@ -1,3 +1,4 @@
 git+https://github.com/ansible/ansible@devel
 git+https://github.com/wilmardo/molecule@lxd
 pywinrm>=0.3.0
+docker
