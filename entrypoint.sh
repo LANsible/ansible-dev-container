@@ -13,4 +13,5 @@ groupadd -f -g $GROUP_ID group
 useradd --shell /bin/bash -u $USER_ID -G group -o -c "" -m user
 export HOME=/home/user
 
+echo "Secondary group: $(getent group lxd | cut -d: -f1)"
 exec /usr/bin/gosu user "$@"

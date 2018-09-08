@@ -65,6 +65,9 @@ RUN set -o pipefail \
 RUN set -o pipefail && curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz | \
     tar -zxC "/usr/bin/" --strip-components=1 docker/docker
 
+### CHANGE GUID SSH_KEYS GROUP, CONFLICTING ON TRAVIS WITH LXD GROUP ###
+RUN groupmod -g 997 ssh_keys
+
 #################################################
 # CREATE FINAL IMAGE WITH CORRECT ANSIBLE VERSION
 #################################################
