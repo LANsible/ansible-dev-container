@@ -72,11 +72,10 @@ RUN groupmod -g 997 ssh_keys
 # CREATE FINAL IMAGE WITH CORRECT ANSIBLE VERSION
 #################################################
 FROM base
-LABEL maintainer="Wilmar den Ouden <info@wilmardenouden.nl>"
 
 ENV DOCKER_HOST tcp://127.0.0.1:2375
 ENV DEV_MOLECULE_RULES /data/molecule-rules
-ENV DEV_PIP_REQUIREMENTS /data
+ENV DEV_PIP_REQUIREMENTS /data/requirements.txt
 
 ARG ANSIBLE_VERSION=2.6
 
@@ -85,4 +84,17 @@ COPY files/molecule-rules $DEV_MOLECULE_RULES
 
 ### INSTALL ANSIBLE + MOLECULE ###
 COPY files/pip/requirements-$ANSIBLE_VERSION.txt $DEV_PIP_REQUIREMENTS
-RUN pip install -r $DEV_PIP_REQUIREMENTS/requirements-$ANSIBLE_VERSION.txt --no-cache-dir
+RUN pip install -r $DEV_PIP_REQUIREMENTS --no-cache-dir
+
+# Add label last as it's just metadata and usere a lot a parameters
+LABEL maintainer="Wilmar den Ouden <info@wilmardenouden.nl>" \
+    readme.md="https://github.com/LANsible/ansible-dev-container/blob/master/README.MD" \
+    description="This Dockerfile is used for testing Ansible roles with Molecule" \
+    org.label-schema.usage="https://github.com/PowerShell/PowerShell/tree/master/docker#run-the-docker-image-you-built" \
+    org.label-schema.url="https://github.com/LANsible/ansible-dev-container/blob/master/README.MD" \
+    org.label-schema.vcs-url="https://github.com/PowerShell/PowerShell-Docker" \
+    org.label-schema.name="LANsible" \
+    org.label-schema.vendor="LANsible" \
+    org.label-schema.vcs-ref=${TRAVIS_COMMIT} \
+    org.label-schema.version=${ANSIBLE_VERSION} \
+    org.label-schema.schema-version="1.0" \
