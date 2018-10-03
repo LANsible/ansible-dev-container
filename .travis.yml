@@ -1,8 +1,6 @@
 dist: trusty
-language: python
+language: minimal
 sudo: required
-cache:
-  pip: true
 
 env:
   global:
