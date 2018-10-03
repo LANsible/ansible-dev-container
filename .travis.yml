@@ -9,6 +9,7 @@ env:
     - secure: DPm5sKwASaNf2WBB7nQhW1oHcWTeaTy4oBmI48Lep2f/NKpVvZaaaLrZ57G+o5SFuDqEqtPE7bsjdHiZnIooKj6fjKM1IqgYhA3tIq3pF4ECIT4gtN9B/l7QWhA20Dm5K5XARb1+jcg13EQ784/SbLTaMpfz65ENujHWUHnRHKEVlZ4ETcFuNYRmav5DlRvknHM91Z4r0Vmg1ws+N1K7EJOdM+YHEK7eAL/x8DnmJxuroCsqnnxU1UIKlunhYssLu0zqADdtvMkLkIv+tL0tHBUymi5YBQ0AZvAoAGR+1y9b+Jno+6mRbTBzLgrytBq6uaG8j9IBmgtD87YhL5+6/mDv/snRde18wCMt+AbQASSWX8NX2D5hPgMCzksgnU+X8PxdF3okx3tirbTU98lagvdCaUJB7vCqe1UEK0UWt758H4/6u6nZqZvfWgvP5XtBtfbvChw5hSsebJAOYNllAdtmTGdKghq6SHqVtqCDJYWo/MRKQeusomDVLm6cHo8HiGfqqDkdMWPzVxtTPwpsuBXfVCPT6mnMbWzVdGVMfOx3chDApz9fh3kJFiE5ZqOpsdkmMqds5SMizxGGBZVQjo6V4wa4TyQ7nx4cecaDqAo1fbvzF6lUsxs4F6Ki1rk5r5JsfjvH+GaN+I0X/CRtcQNqGxOkDGr43UJKLLjva8E=
     - env: CONTAINER_NAME=ansible-dev-container
     - env: DOCKER_NAMESPACE=lansible
+
 services:
   - docker
 
