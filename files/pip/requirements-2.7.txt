@@ -1,4 +1,4 @@
-git+https://github.com/ansible/ansible@devel
+ansible<2.8
 molecule>=2.18
 pywinrm>=0.3.0
 docker

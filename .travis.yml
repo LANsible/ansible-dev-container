@@ -24,10 +24,11 @@ matrix:
   include:
     - env: ANSIBLE_VERSION=2.2 TAGS="2.2"         # 2.2.x unsupported
     - env: ANSIBLE_VERSION=2.3 TAGS="2.3"         # 2.3.x unsupported
-    - env: ANSIBLE_VERSION=2.4 TAGS="2.4"         # 2.4.x security
-    - env: ANSIBLE_VERSION=2.5 TAGS="2.5"         # 2.5.x bugs and security
-    - env: ANSIBLE_VERSION=2.6 TAGS="2.6 latest"  # 2.6.x bugs and security
-    - env: ANSIBLE_VERSION=2.7 TAGS="2.7 devel"   # Devel branch source install
+    - env: ANSIBLE_VERSION=2.4 TAGS="2.4"         # 2.4.x unsupported
+    - env: ANSIBLE_VERSION=2.5 TAGS="2.5"         # 2.5.x security
+    - env: ANSIBLE_VERSION=2.6 TAGS="2.6"         # 2.6.x bugs and security
+    - env: ANSIBLE_VERSION=2.7 TAGS="2.7 latest"  # 2.7.x bugs and security
+    - env: ANSIBLE_VERSION=2.7 TAGS="2.8 devel"   # Devel branch source install
 
 before_script:
   - docker pull ${DOCKER_NAMESPACE}/${CONTAINER_NAME}:latest
