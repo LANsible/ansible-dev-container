@@ -59,7 +59,7 @@ COPY --from=lxd-builder /go/bin/lxc /usr/bin/lxc
 
 ### PIP INSTALL ###
 RUN set -o pipefail \
-    && curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --no-setuptools  --no-wheel
+    && curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --no-wheel
 
 ### DOCKER CLIENT ONLY ###
 RUN set -o pipefail && curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz | \
