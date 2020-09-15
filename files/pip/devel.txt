@@ -1,4 +1,3 @@
 git+https://github.com/ansible/ansible@devel
-molecule>=2.18
-pywinrm>=0.3.0
-docker
+molecule[docker]==3.0.8
+ansible-lint==4.3.4

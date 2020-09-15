@@ -1,100 +1,42 @@
-#################################################
-# CREATE GOSU IMAGE
-# https://github.com/tianon/gosu/
-#################################################
-FROM centos:7 as gosu
+FROM alpine:3.12
 
-ENV GOSU_VERSION 1.10
-RUN set -ex; \
-	\
-	yum -y install epel-release; \
-	yum -y install wget dpkg; \
-	\
-	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-	wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
-	wget -O /tmp/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
-	\
-# verify the signature
-	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-	gpg --batch --verify /tmp/gosu.asc /usr/bin/gosu; \
-	rm -r "$GNUPGHOME" /tmp/gosu.asc; \
-	\
-	chmod +x /usr/bin/gosu; \
-# verify that the binary works
-	gosu nobody true; \
-	\
-	yum -y remove wget dpkg; \
-	yum clean all
+ARG VERSION=2.9
 
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENV DOCKER_HOST=tcp://127.0.0.1:2375 \
+    DEV_MOLECULE_RULES=/data/molecule-rules
+# YAMLLINT_CONFIG_FILE: variable to point to config file
+# ANSIBLE_LINT_CONFIG: not implemented yet but used with -c see:
+# https://github.com/ansible/ansible-lint/issues/489
+# ANSIBLE_LOCAL_TMP: Sets ansible temp dir to /dev/shm for read only container
+# ANSIBLE_STDOUT_CALLBACK: Nicer stdout callback in yaml
+# ANSIBLE_HOST_KEY_CHECKING: Needed, no known_hosts in container
+# ANSIBLE_JINJA2_NATIVE: Let's jinja2/Ansible return native datatypes and not only strings
+# ANSIBLE_PERSISTENT_CONNECT_TIMEOUT: Idle time for persistent connection before it is destroyed.
+# TMPDIR: Sets tmp dir to shared host memory to allow a readonly container
+# MOLECULE_EPHEMERAL_DIRECTORY: Set to /dev/shm to allow readonly container
+ENV YAMLLINT_CONFIG_FILE=${DEV_MOLECULE_RULES}/yaml-lint.yml \
+    ANSIBLE_LINT_CONFIG=${DEV_MOLECULE_RULES}/ansible-lint.yml \
+    ANSIBLE_LOCAL_TEMP=/dev/shm \
+    ANSIBLE_STDOUT_CALLBACK=yaml \
+    ANSIBLE_HOST_KEY_CHECKING=False \
+    ANSIBLE_JINJA2_NATIVE=True \
+    ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=45 \
+    TMPDIR=/dev/shm \
+    MOLECULE_EPHEMERAL_DIRECTORY=/dev/shm
 
-#################################################
-# USE GOLANG IMAGE FOR BUILDING LXC CLIENT
-#################################################
-FROM golang:1.10 as lxd-builder
+# ibffi-dev and libressl-dev are Ansible runtime dependencies
+RUN apk add --no-cache \
+      docker-cli \
+      py3-pip \
+      libffi-dev \
+      libressl-dev
 
-### LXC CLIENT BUILD ###
-RUN go get -v -x github.com/lxc/lxd/lxc
+COPY files/pip/${VERSION}.txt /requirements.txt
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev make && \
+    pip install --no-cache-dir -r /requirements.txt && \
+    apk del .build-deps
 
-#################################################
-# CREATE BASE IMAGE
-#################################################
-FROM gosu as base
+COPY files/molecule-rules ${DEV_MOLECULE_RULES}
 
-RUN yum install -y \
-        gcc \
-        git \
-        python-dnf \
-        python-yum \
-        python-devel \
-        openssl-devel \
-    && yum clean all \
-    && rm -rf /var/cache/yum
-
-### LXC CLIENT COPY + CONFIG ###
-COPY --from=lxd-builder /go/bin/lxc /usr/bin/lxc
-#COPY files/lxc $HOME/.config/lxc
-
-### PIP INSTALL ###
-RUN set -o pipefail \
-    && curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir --no-wheel
-
-### DOCKER CLIENT ONLY ###
-RUN set -o pipefail && curl https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz | \
-    tar -zxC "/usr/bin/" --strip-components=1 docker/docker
-
-### CHANGE GUID SSH_KEYS GROUP, CONFLICTING ON TRAVIS WITH LXD GROUP ###
-RUN groupmod -g 997 ssh_keys
-
-#################################################
-# CREATE FINAL IMAGE WITH CORRECT ANSIBLE VERSION
-#################################################
-FROM base
-
-ENV DOCKER_HOST tcp://127.0.0.1:2375
-ENV DEV_MOLECULE_RULES /data/molecule-rules
-ENV DEV_PIP_REQUIREMENTS /data/requirements.txt
-
-ARG ANSIBLE_VERSION=2.6
-
-### ADD MOLECULE-RULES ###
-COPY files/molecule-rules $DEV_MOLECULE_RULES
-
-### INSTALL ANSIBLE + MOLECULE ###
-COPY files/pip/requirements-$ANSIBLE_VERSION.txt $DEV_PIP_REQUIREMENTS
-RUN pip install -r $DEV_PIP_REQUIREMENTS --no-cache-dir
-
-# Add label last as it's just metadata and usere a lot a parameters
-LABEL maintainer="Wilmar den Ouden <info@wilmardenouden.nl>" \
-    readme.md="https://github.com/LANsible/ansible-dev-container/blob/master/README.MD" \
-    description="This Dockerfile is used for testing Ansible roles with Molecule" \
-    org.label-schema.usage="https://github.com/PowerShell/PowerShell/tree/master/docker#run-the-docker-image-you-built" \
-    org.label-schema.url="https://github.com/LANsible/ansible-dev-container/blob/master/README.MD" \
-    org.label-schema.vcs-url="https://github.com/PowerShell/PowerShell-Docker" \
-    org.label-schema.name="LANsible" \
-    org.label-schema.vendor="LANsible" \
-    org.label-schema.vcs-ref=${TRAVIS_COMMIT} \
-    org.label-schema.version=${ANSIBLE_VERSION} \
-    org.label-schema.schema-version="1.0" \
+RUN addgroup -g 1000 user && \
+    adduser -u 1000 -G user -D user

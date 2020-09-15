@@ -14,23 +14,10 @@ ENV vars are prefixed with `DEV_` because `MOLECULE_` and `ANSIBLE_` are reserve
 
 Available ENV vars:
 * `DEV_MOLECULE_RULES` point to molecule-rules directory
-* `DEV_PIP_REQUIREMENTS` point to pip requirements file which are installed in the Docker image
-
 
 ## Testing roles
 
 Roles can be tested with the following commands, executed from the role directory, where the last part is the command executed by bash:
-
-### LXD
-#### Linux
-```
-docker run -it -v $(pwd):/data/$(basename ~+) \
-    -v /var/snap/lxd/common/lxd/unix.socket:/var/lib/lxd/unix.socket \
-    -w /data/$(basename ~+) \
-    -e LOCAL_USER_ID=`id -u $USER` \
-    -e LOCAL_GROUP_ID=`getent group lxd | cut -d: -f3` \
-    lansible/ansible-dev-container:2.6 molecule test
-```
 
 ### Docker
 The Docker socket needs to be listening on 127.0.0.1:2375 see the [Docker docs](https://success.docker.com/article/using-systemd-to-control-the-docker-daemon#overridingdefaultsforthedockerdaemon)

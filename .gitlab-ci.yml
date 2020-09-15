@@ -1,0 +1,93 @@
+---
+include:
+  - remote: https://raw.githubusercontent.com/LANsible/gitlab-includes/master/docker-login.yml
+  - remote: https://raw.githubusercontent.com/LANsible/gitlab-includes/master/docker-build.yml
+
+stages:
+  - build
+  - test
+  - push
+
+# Build image and push to Gitlab registry
+.build:
+  tags:
+    - local  # do not run on shared runner
+    - docker
+  variables:
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
+  script:
+    # Show command to run
+    - echo docker build
+        --build-arg "VERSION=${DOCKER_IMAGE_TAG}"
+        --label "org.label-schema.build-date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+        --label "org.label-schema.name='${CI_PROJECT_TITLE}'"
+        --label "org.label-schema.url='https://github.com/LANsible/${CI_PROJECT_NAME}'"
+        --label "org.label-schema.vcs-ref='${CI_COMMIT_SHA}'"
+        --label "org.label-schema.vcs-url='https://github.com/LANsible/${CI_PROJECT_NAME}'"
+        --label "org.label-schema.vendor=LANsible"
+        --label "org.label-schema.version='${CI_COMMIT_REF_SLUG}'"
+        --label "org.label-schema.schema-version='1.0'"
+        --tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+    # Build and push container
+    - docker build
+        --cache-from ${CI_REGISTRY_IMAGE}/master:${CI_COMMIT_SHA}-${ARCHITECTURE}
+        --build-arg "VERSION=${DOCKER_IMAGE_TAG}"
+        ${BUILD_ARGS}
+        --label "org.label-schema.build-date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+        --label "org.label-schema.name='${CI_PROJECT_TITLE}'"
+        --label "org.label-schema.url='https://github.com/LANsible/${CI_PROJECT_NAME}'"
+        --label "org.label-schema.vcs-ref='${CI_COMMIT_SHA}'"
+        --label "org.label-schema.vcs-url='https://github.com/LANsible/${CI_PROJECT_NAME}'"
+        --label "org.label-schema.vendor=LANsible"
+        --label "org.label-schema.version='${CI_COMMIT_REF_SLUG}'"
+        --label "org.label-schema.schema-version='1.0'"
+        --tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+    - docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+# https://docs.ansible.com/ansible/devel/reference_appendices/release_and_maintenance.html
+build_devel:
+  extends: .build
+  stage: build
+  variables:
+    DOCKER_IMAGE_TAG: devel
+
+build_2.9:
+  extends: .build
+  stage: build
+  variables:
+    DOCKER_IMAGE_TAG: 2.9
+
+build_2.8:
+  extends: .build
+  stage: build
+  variables:
+    DOCKER_IMAGE_TAG: 2.8
+
+# Retag image and push to Docker Hub
+.push_tag:
+  stage: push
+  variables:
+    TARGET_DOCKER_IMAGE_NAME: lansible/ansible
+  only:
+    - tags
+  script:
+    - docker pull ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${DOCKER_IMAGE_TAG}
+    - docker tag ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${DOCKER_IMAGE_TAG} ${TARGET_DOCKER_IMAGE_NAME):${DOCKER_IMAGE_TAG}
+    - docker push ${TARGET_DOCKER_IMAGE_NAME):${DOCKER_IMAGE_TAG}
+
+push_tag_devel:
+  extends: .push_tag
+  variables:
+    DOCKER_IMAGE_TAG: devel
+
+push_tag_2.9:
+  extends: .push_tag
+  variables:
+    DOCKER_IMAGE_TAG: 2.9
+
+push_tag_2.8:
+  extends: .push_tag
+  variables:
+    DOCKER_IMAGE_TAG: 2.8
