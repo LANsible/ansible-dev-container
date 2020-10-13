@@ -1,7 +1,25 @@
 FROM alpine:3.12
 
-ARG VERSION=2.9
+ENV VERSION=2.10
 
+# libffi-dev and libressl-dev are Ansible runtime dependencies
+RUN apk add --no-cache \
+      docker-cli \
+      py3-pip \
+      libffi-dev \
+      libressl-dev
+
+COPY files/pip/${VERSION}.txt /requirements.txt
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev make && \
+    pip3 install --no-cache-dir -r /requirements.txt && \
+    apk del .build-deps
+
+COPY files/molecule-rules ${DEV_MOLECULE_RULES}
+
+RUN addgroup -g 1000 user && \
+    adduser -u 1000 -G user -D user
+
+# NOTE: env vars moved to last stage, since TMPDIR breaks pip build
 ENV DOCKER_HOST=tcp://127.0.0.1:2375 \
     DEV_MOLECULE_RULES=/data/molecule-rules
 # YAMLLINT_CONFIG_FILE: variable to point to config file
@@ -23,20 +41,3 @@ ENV YAMLLINT_CONFIG_FILE=${DEV_MOLECULE_RULES}/yaml-lint.yml \
     ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=45 \
     TMPDIR=/dev/shm \
     MOLECULE_EPHEMERAL_DIRECTORY=/dev/shm
-
-# ibffi-dev and libressl-dev are Ansible runtime dependencies
-RUN apk add --no-cache \
-      docker-cli \
-      py3-pip \
-      libffi-dev \
-      libressl-dev
-
-COPY files/pip/${VERSION}.txt /requirements.txt
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev make && \
-    pip install --no-cache-dir -r /requirements.txt && \
-    apk del .build-deps
-
-COPY files/molecule-rules ${DEV_MOLECULE_RULES}
-
-RUN addgroup -g 1000 user && \
-    adduser -u 1000 -G user -D user
