@@ -3,11 +3,6 @@ include:
   - remote: https://raw.githubusercontent.com/LANsible/gitlab-includes/master/docker-login.yml
   - remote: https://raw.githubusercontent.com/LANsible/gitlab-includes/master/docker-build.yml
 
-stages:
-  - build
-  - test
-  - push
-
 # Build image and push to Gitlab registry
 .build:
   tags:
@@ -53,17 +48,23 @@ build_devel:
   variables:
     DOCKER_IMAGE_TAG: devel
 
+build_2.10:
+  extends: .build
+  stage: build
+  variables:
+    DOCKER_IMAGE_TAG: "2.10"
+
 build_2.9:
   extends: .build
   stage: build
   variables:
-    DOCKER_IMAGE_TAG: 2.9
+    DOCKER_IMAGE_TAG: "2.9"
 
 build_2.8:
   extends: .build
   stage: build
   variables:
-    DOCKER_IMAGE_TAG: 2.8
+    DOCKER_IMAGE_TAG: "2.8"
 
 # Retag image and push to Docker Hub
 .push_tag:
@@ -82,12 +83,17 @@ push_tag_devel:
   variables:
     DOCKER_IMAGE_TAG: devel
 
+push_tag_2.10:
+  extends: .push_tag
+  variables:
+    DOCKER_IMAGE_TAG: "2.9"
+
 push_tag_2.9:
   extends: .push_tag
   variables:
-    DOCKER_IMAGE_TAG: 2.9
+    DOCKER_IMAGE_TAG: "2.9"
 
 push_tag_2.8:
   extends: .push_tag
   variables:
-    DOCKER_IMAGE_TAG: 2.8
+    DOCKER_IMAGE_TAG: "2.8"
