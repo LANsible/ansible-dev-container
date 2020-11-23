@@ -11,7 +11,7 @@ RUN apk add --no-cache \
       openssh-client
 
 COPY files/pip/${VERSION}.txt /requirements.txt
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev make && \
+RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make && \
     pip3 install --no-cache-dir -r /requirements.txt && \
     apk del .build-deps
 
