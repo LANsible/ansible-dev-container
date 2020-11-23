@@ -1,6 +1,6 @@
 FROM alpine:3.12
 
-ENV VERSION=2.10
+ARG VERSION=2.10
 
 # libffi-dev and libressl-dev are Ansible runtime dependencies
 RUN apk add --no-cache \
