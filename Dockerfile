@@ -7,7 +7,8 @@ RUN apk add --no-cache \
       docker-cli \
       py3-pip \
       libffi-dev \
-      libressl-dev
+      libressl-dev \
+      openssh-client
 
 COPY files/pip/${VERSION}.txt /requirements.txt
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev python3-dev make && \
