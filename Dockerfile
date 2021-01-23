@@ -1,28 +1,38 @@
-FROM alpine:3.12
+FROM alpine:3.13
+
+# NOTE: env vars moved to last stage, since TMPDIR breaks pip build
+ENV DOCKER_HOST=tcp://127.0.0.1:2375 \
+    DEV_MOLECULE_RULES=/data/molecule-rules
 
 ARG VERSION=2.10
 
 # libffi-dev and libressl-dev are Ansible runtime dependencies
+# openssh-client and sshpass are for ssh authentication
 RUN apk add --no-cache \
       docker-cli \
       py3-pip \
       libffi-dev \
       libressl-dev \
-      openssh-client
+      openssh-client \
+      sshpass
 
+COPY files/pip/_common.txt /common.txt
 COPY files/pip/${VERSION}.txt /requirements.txt
+
+# Split pip install in two parts, otherwise install ansible as dependency of molecule
 RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make && \
     pip3 install --no-cache-dir -r /requirements.txt && \
-    apk del .build-deps
+    pip3 install --no-cache-dir -r common.txt && \
+    apk del .build-deps && \
+    rm -f /requirements.txt /common.txt
 
 COPY files/molecule-rules ${DEV_MOLECULE_RULES}
 
 RUN addgroup -g 1000 user && \
     adduser -u 1000 -G user -D user
 
-# NOTE: env vars moved to last stage, since TMPDIR breaks pip build
-ENV DOCKER_HOST=tcp://127.0.0.1:2375 \
-    DEV_MOLECULE_RULES=/data/molecule-rules
+USER 1000
+
 # YAMLLINT_CONFIG_FILE: variable to point to config file
 # ANSIBLE_LINT_CONFIG: not implemented yet but used with -c see:
 # https://github.com/ansible/ansible-lint/issues/489
