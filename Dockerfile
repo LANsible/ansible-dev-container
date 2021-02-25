@@ -26,6 +26,9 @@ RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make &
     apk del .build-deps && \
     rm -f /requirements.txt /common.txt
 
+# Add community modules
+RUN ansible-galaxy collection install community.general
+
 COPY files/molecule-rules ${DEV_MOLECULE_RULES}
 
 RUN addgroup -g 1000 user && \
