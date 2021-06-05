@@ -4,7 +4,7 @@ FROM alpine:3.13
 ENV DOCKER_HOST=tcp://127.0.0.1:2375 \
     DEV_MOLECULE_RULES=/data/molecule-rules
 
-ARG VERSION=2.10
+ARG VERSION=2.11
 
 # libffi-dev and libressl-dev are Ansible runtime dependencies
 # openssh-client and sshpass are for ssh authentication
@@ -21,8 +21,8 @@ COPY files/pip/${VERSION}.txt /requirements.txt
 
 # Split pip install in two parts, otherwise install ansible as dependency of molecule
 RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make && \
-    pip3 install --no-cache-dir -r /requirements.txt && \
-    pip3 install --no-cache-dir -r common.txt && \
+    pip3 install --pre --no-cache-dir -r /requirements.txt && \
+    pip3 install --pre --no-cache-dir -r common.txt && \
     apk del .build-deps && \
     rm -f /requirements.txt /common.txt
 
