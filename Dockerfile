@@ -11,6 +11,7 @@ ARG VERSION=2.11
 RUN apk add --no-cache \
       docker-cli \
       py3-pip \
+      py3-wheel \
       libffi-dev \
       libressl-dev \
       openssh-client \
@@ -20,7 +21,7 @@ COPY files/pip/_common.txt /common.txt
 COPY files/pip/${VERSION}.txt /requirements.txt
 
 # Split pip install in two parts, otherwise install ansible as dependency of molecule
-RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make && \
+RUN apk add --no-cache --virtual .build-deps git gcc musl-dev python3-dev make rust cargo && \
     pip3 install --pre --no-cache-dir -r /requirements.txt && \
     pip3 install --pre --no-cache-dir -r common.txt && \
     apk del .build-deps && \

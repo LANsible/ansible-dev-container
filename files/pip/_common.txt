@@ -1,4 +1,4 @@
-molecule[ansible,lint,docker]==3.3.4
+molecule[ansible,lint]==3.3.4
 
 # Required for Ansible ip filter
 netaddr == 0.8.0
@@ -6,3 +6,5 @@ netaddr == 0.8.0
 jmespath == 0.10.0
 # Required for proxmox module
 proxmoxer == 1.1.1
+# Required for the k8s module
+openshift == 0.12.1
